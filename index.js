@@ -28,7 +28,6 @@ for (const line of lines) {
         .trim()
         .replace(/\{\s+/g, "{")
         .replace(/\s+\}/g, "}");
-    console.log(trimmedLine);
 
     // Skip empty lines
     if (trimmedLine === "") continue;
@@ -43,23 +42,18 @@ for (const line of lines) {
     } else if (trimmedLine.startsWith("for")) {
         codeObjects.push(parse("for", trimmedLine));
     } else if (trimmedLine.startsWith("if")) {
-        const condition = trimmedLine.slice(
-            trimmedLine.indexOf("[") + 1,
-            trimmedLine.indexOf("]")
-        );
-        const code = trimmedLine.slice(trimmedLine.indexOf("#>") + 2);
-        codeObjects.push({ type: "if", condition, code });
+        codeObjects.push(parse("if", trimmedLine));
     } else if (trimmedLine.startsWith("while")) {
-        const condition = trimmedLine.slice(
-            trimmedLine.indexOf("[") + 1,
-            trimmedLine.indexOf("]")
-        );
-        const code = trimmedLine.slice(trimmedLine.indexOf("#>") + 2);
-        codeObjects.push({ type: "while", condition, code });
+        codeObjects.push(parse("while", trimmedLine));
     }
 }
 
 // Generate the final code by combining code objects
 const generatedCode = codeObjects.map((obj) => obj.code).join("\n");
 
+codeObjects.push({ generatedCode });
+
 console.log(codeObjects);
+
+console.log("\n\n OUTPUT \n\n");
+eval(generatedCode);
