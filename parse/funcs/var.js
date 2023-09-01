@@ -5,5 +5,5 @@ module.exports = (trimmedLine) => {
     const type = "variable";
     const code = generateVariable(parts);
 
-    return { type, code };
+    return { type, code, trimmedLine };
 };

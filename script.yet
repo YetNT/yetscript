@@ -1,13 +1,20 @@
 constant lol: 42
+variable bruh: 89
 
-for [blockScoped i: 0; i < 5; i++] #> { 
+for [blockScoped i: 0; i is less than 5; i++] > { 
     console.log(i)
 }
 
-if [lol === 42] #> {
+if [lol is equal to 42] > {
     console.log('lol is 42')
 }
 
-while [ not true ] #> {
+while [ true is false ] > {
     console.log('impossible')
+}
+
+if [ bruh is exactly 9 ] > {
+    console.log("yes")
+} else {
+    console.log("bruh")
 }

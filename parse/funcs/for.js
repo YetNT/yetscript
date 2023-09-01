@@ -1,20 +1,18 @@
 const generateVariable = require("../utils/generateVariable");
+const conditionChange = require("../utils/conditionChange");
+const lexicon = require("../../lexicon.json");
 
 module.exports = (trimmedLine) => {
-    let condition = trimmedLine.slice(
-        trimmedLine.indexOf("[") + 1,
-        trimmedLine.indexOf("]")
+    let conditionInBraces = trimmedLine.slice(
+        trimmedLine.indexOf(lexicon.leftBrace) + 1,
+        trimmedLine.indexOf(lexicon.rightBrace)
     );
-    const variable = generateVariable(
-        condition
-            .slice(condition.indexOf(""), condition.indexOf(";"))
-            .split(" ")
-    );
-    condition = `${variable}${condition.slice(
-        condition.indexOf(";") + 1,
-        condition.length
-    )}`;
-    const code = trimmedLine.slice(trimmedLine.indexOf("#>") + 2);
+    const conditionArray = conditionInBraces.split(lexicon.eol);
+    const variable = generateVariable(conditionArray[0].split(" "));
+    const conditionalStatement = conditionChange(conditionArray[1]);
+    const condition = `${variable}${conditionalStatement};${conditionArray[2]}`;
+    const block = trimmedLine.slice(trimmedLine.indexOf(lexicon.newBlock) + 2);
+    const code = `for (${condition}) ${block};`;
 
-    return { type: "for", condition, code };
+    return { type: "for", condition, block, code, trimmedLine };
 };
