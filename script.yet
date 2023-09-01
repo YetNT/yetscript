@@ -1,0 +1,13 @@
+constant lol: 42
+
+for [blockScoped i: 0; i < 5; i++] #> { 
+    console.log(i)
+}
+
+if [lol === 42] #> {
+    console.log('lol is 42')
+}
+
+while [ not true ] #> {
+    console.log('impossible')
+}
