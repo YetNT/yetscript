@@ -5,7 +5,7 @@ module.exports = (parts) => {
             : parts[0] == "blockScoped"
             ? "let"
             : "variable"
-            ? "let"
+            ? "var"
             : parts[0];
     const variableName = parts[1].split(":")[0];
     const value = parts.slice(2).join(" ");
