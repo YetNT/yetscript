@@ -1,0 +1,8 @@
+{
+    "leftBrace": "[",
+    "rightBrace": "]",
+    "openBlock": "{",
+    "closeBlock": "}",
+    "eol": ";",
+    "newBlock": ">"
+}
