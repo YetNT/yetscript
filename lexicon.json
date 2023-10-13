@@ -3,6 +3,8 @@
     "rightBrace": "]",
     "openBlock": "{",
     "closeBlock": "}",
+    "openComment": "(=",
+    "closeComment": "=)",
     "eol": ";",
     "newBlock": ">"
 }

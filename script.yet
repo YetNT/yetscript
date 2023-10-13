@@ -1,6 +1,7 @@
 constant lol: 42
 variable bruh: 89
-
+constant list: (1, 2, 3, 4, 5, 6, 89)
+(=
 for [blockScoped i: 0; i is less than 5; i++] > { 
     console.log(i)
 }
@@ -18,3 +19,4 @@ if [ bruh is exactly 9 ] > {
 } else {
     console.log("bruh")
 }
+=)

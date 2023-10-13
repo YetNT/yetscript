@@ -2,23 +2,12 @@ const fs = require("fs");
 
 const filePath = "script.yet";
 const fileContent = fs.readFileSync(filePath, "utf-8");
+const lexicon = require("./lexicon.json");
 
-const lines = fileContent.split(/[\n\r](?![^{]*})/); // split between lines but not curly brace pairs
+const lines = fileContent.split(/[\n\r](?![^\(=]*=\))(?![^{]*})/g); // split between lines but not curly brace pairs
+console.log(lines);
 const parse = require("./parse/moduleParse");
-
-function generateVariable(parts) {
-    const type =
-        parts[0] == "constant"
-            ? "const"
-            : parts[0] == "blockScoped"
-            ? "let"
-            : "variable"
-            ? "let"
-            : parts[0];
-    const variableName = parts[1].split(":")[0];
-    const value = parts.slice(2).join(" ");
-    return `${type} ${variableName} = ${value};`;
-}
+const { removeAllListeners } = require("process");
 
 const codeObjects = [];
 
@@ -27,7 +16,9 @@ for (const line of lines) {
     const trimmedLine = line
         .trim()
         .replace(/\{\s+/g, "{")
-        .replace(/\s+\}/g, "}");
+        .replace(/\s+\}/g, "}")
+        .replace(/\(=\s+/g, "{")
+        .replace(/\s+\=\)/g, "}");
 
     // Skip empty lines
     if (trimmedLine === "") continue;
@@ -45,6 +36,8 @@ for (const line of lines) {
         codeObjects.push(parse("if", trimmedLine));
     } else if (trimmedLine.startsWith("while")) {
         codeObjects.push(parse("while", trimmedLine));
+    } else if (trimmedLine.startsWith("(=")) {
+        codeObjects.push(parse("comment", trimmedLine));
     }
 }
 
